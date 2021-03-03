@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Arbeit/Arbeit.iml" filepath="$PROJECT_DIR$/Arbeit/Arbeit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Konto/Konto.iml" filepath="$PROJECT_DIR$/Konto/Konto.iml" />
       <module fileurl="file://$PROJECT_DIR$/Lf-02.iml" filepath="$PROJECT_DIR$/Lf-02.iml" />
     </modules>
   </component>
