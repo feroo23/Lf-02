@@ -37,9 +37,14 @@ public abstract class Konto {
         this.zinsGuthaben = zinsGuthaben;
     }
     public void einzahlen(double betrag){
-
+        kontoStand += betrag;
     }
-    public boolean auszahl(double betrag){
 
+    public boolean auszahl(double betrag){
+        if(kontoStand - betrag >= 0 - kreditLimit ){
+            kontoStand -= betrag;
+            return true;
+        }
+        return false;
     }
 }
