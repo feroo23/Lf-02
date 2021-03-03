@@ -14,11 +14,8 @@ public class Girokonto extends Konto{
     public void setZinsKredit(double zinsKredit) {
         this.zinsKredit = zinsKredit;
     }
-    public boolean ueberweisen(double betrag, Girokonto girokonto){
-        if(super.auszahl(betrag)){
-            girokonto.einzahlen(betrag);
-            return true;
-        }
-        return false;
+    public void ueberweisen(double betrag, Girokonto girokonto)throws KreditlimitUeberschrittenException, BetragNichtKorrektException{
+        super.auszahl(betrag);
+        girokonto.einzahlen(betrag);
     }
 }

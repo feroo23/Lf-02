@@ -36,15 +36,22 @@ public abstract class Konto {
     public void setZinsGuthaben(double zinsGuthaben) {
         this.zinsGuthaben = zinsGuthaben;
     }
-    public void einzahlen(double betrag){
-        kontoStand += betrag;
+    public void einzahlen(double betrag)throws BetragNichtKorrektException{
+        if(betrag <= 0){
+            throw new BetragNichtKorrektException();
+        }
+        else {
+            kontoStand += betrag;
+        }
     }
 
-    public boolean auszahl(double betrag){
+    public void auszahl(double betrag)throws KreditlimitUeberschrittenException{
         if(kontoStand - betrag >= 0 - kreditLimit ){
             kontoStand -= betrag;
-            return true;
         }
-        return false;
+        else {
+            throw new KreditlimitUeberschrittenException(betrag);
+        }
+
     }
 }
