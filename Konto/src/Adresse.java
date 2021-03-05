@@ -46,7 +46,7 @@ public class Adresse {
 
     @Override
     public String toString() {
-        String text = "\n\tAdresse " + getStr() + " " + getHausNr();
+        String text = "\n\t" + getStr() + " " + getHausNr();
         text += "\n\t" + getPzl() + " " + getOrt();
         return text;
     }

@@ -36,10 +36,8 @@ public abstract class Person {
 
     @Override
     public String toString() {
-        return "Person{" +
-                "vorname='" + vorname + '\'' +
-                ", nachname='" + nachname + '\'' +
-                ", adresse=" + adresse +
-                '}';
+        String text = "\n\tName: " + getVorname() + getNachname();
+        text += "\n\tAdresse:" + getAdresse().toString();
+        return text;
     }
 }

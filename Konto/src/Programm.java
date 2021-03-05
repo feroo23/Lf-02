@@ -6,7 +6,12 @@ public class Programm {
         Mitarbeiter mitarbeiter = new Mitarbeiter("Frag","Nicht",adresseMit);
         Kunde kunde = new Kunde("Fero", "23", adresseKunde,mitarbeiter);
 
-        System.out.println(Mitarbeiter.to);
-        Mitarbeiter.to
+        System.out.println(kunde);
+        //System.out.println(adresseKunde);
+        System.out.println(mitarbeiter);
+      //  System.out.println(adresseMit);
+
+
+
     }
 }
