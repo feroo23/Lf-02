@@ -10,4 +10,19 @@ public abstract class Schule {
         this.lehrer = lehrer;
     }
 
+    public ArrayList<Schüler> getSchueler() {
+        return Schueler;
+    }
+
+    public void setSchueler(ArrayList<Schüler> schueler) {
+        Schueler = schueler;
+    }
+
+    public ArrayList<Lehrer> getLehrer() {
+        return lehrer;
+    }
+
+    public void setLehrer(ArrayList<Lehrer> lehrer) {
+        this.lehrer = lehrer;
+    }
 }
