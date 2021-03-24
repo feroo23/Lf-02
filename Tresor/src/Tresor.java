@@ -2,27 +2,31 @@ import java.util.ArrayList;
 
 public class Tresor {
 
-    private ArrayList<Gegenstand> gegenstand;
+    private ArrayList<Gegenstand> gegenstande;
 
     public Tresor(ArrayList<Gegenstand> gegenstand) {
-        this.gegenstand = gegenstand;
+        this.gegenstande = gegenstand;
     }
 
-    public ArrayList<Gegenstand> getGegenstand(int id) {
-        return gegenstand;
+    public ArrayList<Gegenstand> getGegenstand(int id) throws GegenstandNichtGefundenException {
+        for (Gegenstand gegenstand : gegenstande) {
+            if (gegenstand.getId() == id) {
+
+            }
+        }return gegenstande;
     }
 
-    public void addGegenstand(Gegenstand gegenstand){
-
+    public void addGegenstand(Gegenstand gegenstand) {
+        gegenstande.add(gegenstand);
     }
 
-    public void removeGegenstand(Gegenstand gegenstand){
-
+    public void removeGegenstand(Gegenstand gegenstand) {
+        gegenstande.remove(gegenstand);
     }
 
-    public double brecheneGesamtwert(){
+    public double brecheneGesamtwert() {
         double summe = 0;
-        for (Gegenstand gegenstand: gegenstand){
+        for (Gegenstand gegenstand : gegenstande) {
             summe += gegenstand.getWert();
         }
         return summe;

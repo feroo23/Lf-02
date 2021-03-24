@@ -18,4 +18,14 @@ public class Girokonto extends Konto{
         super.auszahl(betrag);
         girokonto.einzahlen(betrag);
     }
+
+    @Override
+    public String toString() {
+        String text = "\n\tKonto inhaber: " + getInhaber();
+        text += "\n\tKonto stand: " + getKontoStand();
+        text += "\n\tkredit limit: " + getKreditLimit();
+        text += "\n\tZins Guthaben: " + getZinsGuthaben();
+        text += "\n\tZins Kredit: " + getZinsKredit();
+        return text;
+    }
 }
