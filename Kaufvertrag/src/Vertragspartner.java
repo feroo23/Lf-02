@@ -1,11 +1,11 @@
-public class vertragspartner {
+public class Vertragspartner{
 
     private String vorname;
     private String nachname;
     private String ausweisNr;
     private Adresse adresse;
 
-    public vertragspartner(String vorname, String nachname) {
+    public Vertragspartner(String vorname, String nachname) {
         this.vorname = vorname;
         this.nachname = nachname;
     }
@@ -40,5 +40,10 @@ public class vertragspartner {
 
     public void setAdresse(Adresse adresse) {
         this.adresse = adresse;
+    }
+
+    @Override
+    public String toString() {
+        return ;
     }
 }
