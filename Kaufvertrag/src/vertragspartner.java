@@ -35,10 +35,10 @@ public class vertragspartner {
     }
 
     public Adresse getAdresse() {
-        return Adresse;
+        return adresse;
     }
 
-    public void setAdresse(adresse adresse) {
+    public void setAdresse(Adresse adresse) {
         this.adresse = adresse;
     }
 }
