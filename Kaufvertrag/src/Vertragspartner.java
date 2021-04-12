@@ -44,6 +44,6 @@ public class Vertragspartner{
 
     @Override
     public String toString() {
-        return ;
+        return "Vorname[" + getVorname() + "]\nNachname [" + getNachname() + "]\nAusweisNr[" + getAusweisNr() + "]\nAdresse : " + getAdresse();
     }
 }

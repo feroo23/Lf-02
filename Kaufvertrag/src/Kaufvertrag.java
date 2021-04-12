@@ -8,7 +8,7 @@ public class Kaufvertrag {
     public Kaufvertrag(Vertragspartner verkäufer, Vertragspartner käufer, Ware ware) {
         this.verkäufer = verkäufer;
         this.käufer = käufer;
-        this.zahlungsModalitaeten = ZahlungsModalitaeten();
+        this.zahlungsModalitaeten = zahlungsModalitaeten;
 
         Ware = ware;
     }
@@ -43,6 +43,6 @@ public class Kaufvertrag {
 
     @Override
     public String toString() {
-        return  "Der Käufer ist [" + getKäufer().getVorname() + "] [" + getKäufer().getNachname() + "]\nDer Verkäufer ist [" + getVerkäufer().getVorname() + "] [" + getVerkäufer().getNachname() + "]\nDie Ware ist [" + getWare().getBezeichnung() + "]\nDer Preis ist [" + getWare().getPreis() + "]\nDie Zahlungsmodalitäten sind [" + getZahlungsModalitaeten() + "]";;
+        return  "Der Käufer ist [" + getKäufer().getVorname() + "] [" + getKäufer().getNachname() + "]\nDer Verkäufer ist [" + getVerkäufer().getVorname() + "] [" + getVerkäufer().getNachname() + "]\nDie Ware ist [" + getWare().getBezeichnung() + "]\nDer Preis ist [" + getWare().getPreis() + "]\nDie Zahlungsmodalitäten sind [" + getZahlungsModalitaeten() + "]";
     }
 }

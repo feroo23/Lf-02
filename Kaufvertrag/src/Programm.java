@@ -23,6 +23,7 @@ public class Programm {
 
 
         System.out.print("----------Adresse----------");
+        System.out.println("\nVerkäufer");
         System.out.println("\n" + Käuferadresse);
         System.out.print("\n----------Vetragspartner----------");
         System.out.println("\n" + Käufer);
