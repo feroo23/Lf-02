@@ -1,6 +1,7 @@
 public class Programm {
 
     public static void main(String[] args) {
+
         //Käufer
         Vertragspartner Käufer = new Vertragspartner("Andrej", "Menschtschikow");
         Adresse Käuferadresse = new Adresse("Ehlersdamm","88","28307","Bremen");
