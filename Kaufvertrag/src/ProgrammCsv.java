@@ -37,19 +37,22 @@ public class ProgrammCsv {
         pw.print("Name;");
         pw.print("Straße;");
         pw.print("PLZ;");
-        pw.println("Ort");
+        pw.print("Ort;");
+        pw.println("AusweissNr");
 
         pw.print("Verkaeufer;");
         pw.print(kaufvertrag.getVerkäufer().getNachname() + "," + kaufvertrag.getVerkäufer().getVorname() + ";");
         pw.print(kaufvertrag.getVerkäufer().getAdresse().getStrasse() + "," + kaufvertrag.getVerkäufer().getAdresse().getHausNr() + ";");
         pw.print(kaufvertrag.getVerkäufer().getAdresse().getPlz() + ";");
-        pw.println(kaufvertrag.getVerkäufer().getAdresse().getOrt());
+        pw.print(kaufvertrag.getVerkäufer().getAdresse().getOrt() + ";");
+        pw.println(kaufvertrag.getVerkäufer().getAusweisNr());
 
         pw.print("Kaeufer;");
         pw.print(kaufvertrag.getKäufer().getNachname() + "," + kaufvertrag.getKäufer().getVorname() + ";");
         pw.print(kaufvertrag.getKäufer().getAdresse().getStrasse() + "," + kaufvertrag.getKäufer().getAdresse().getHausNr() + ";");
         pw.print(kaufvertrag.getKäufer().getAdresse().getPlz() + ";");
-        pw.println(kaufvertrag.getKäufer().getAdresse().getOrt());
+        pw.print(kaufvertrag.getKäufer().getAdresse().getOrt() + ";");
+        pw.println(kaufvertrag.getKäufer().getAusweisNr());
 
         pw.close();
     }

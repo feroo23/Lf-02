@@ -46,6 +46,6 @@ public class Adresse {
 
     @Override
     public String toString() {
-        return "[" + getStrasse() + " " + getHausNr() + " " +  getPlz() + " " + getOrt() + " ]";
+        return "[" + getStrasse() + " " + getHausNr() + " " +  getPlz() + " " + getOrt() + "]";
     }
 }
