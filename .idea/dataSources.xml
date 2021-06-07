@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="Kaufvertrag" uuid="4d8b9981-863e-4dd3-8257-d91f3557c65d">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\ferhat44\IdeaProjects\Lf-02\KaufvertragMitDao\Kaufvertrag.db3</jdbc-url>
+    </data-source>
+  </component>
+</project>
