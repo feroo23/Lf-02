@@ -8,7 +8,7 @@ public class VertragspartnerDao {
 
     public VertragspartnerDao() throws ClassNotFoundException {
         Class.forName(CLASSNAME);
-        Vertragspartner vertragspartner =
+
     }
 }
 
