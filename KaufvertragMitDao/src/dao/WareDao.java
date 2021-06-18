@@ -180,25 +180,12 @@ public class WareDao {
             preparedStatement.setString(1, ware.getBezeichnung());
             preparedStatement.setString(2, ware.getBeschreibung());
             preparedStatement.setDouble(3, ware.getPreis());
-            String besonderheiten = "";
-            String maengel = "";
-            for (String z : ware.getBesonderheitenListe()) {
-                if (besonderheiten.isEmpty()) {
-                    besonderheiten = z;
-                } else {
-                    besonderheiten += "; " + z;
-                }
-            }
-            preparedStatement.setString(4, besonderheiten);
-            for (String u : ware.getMaengelListe()) {
-                if (maengel.isEmpty()) {
-                    besonderheiten = u;
-                } else {
-                    maengel = u;
-                }
-            }
 
-            preparedStatement.setString(5, maengel);
+            String besonderheiten = liste(ware.getBesonderheitenListe());
+            String maengel = liste(ware.getMaengelListe());
+
+            preparedStatement.setString(4,besonderheiten);
+            preparedStatement.setString(5,maengel);
             preparedStatement.setString(6, ware.getWarenNr());
             //SQL-Abfrage ausführen
             preparedStatement.executeUpdate();
@@ -221,14 +208,15 @@ public class WareDao {
     }
 
     private String liste(ArrayList<String> list) {
-        String er = "";
-        for (String s : list) {
-            if (er.isEmpty()) {
-                er = s;
+        String s = "";
+        for (int i = 0; i < list.size(); i++) {
+            if (i <= list.size() - 1) {
+                s += list.get(i) + ';';
             } else {
-                er += "; " + s;
+                s += list.get(i);
             }
         }
-        return er;
+        return s;
     }
+
 }

@@ -69,6 +69,7 @@ public class JavaKlasseProgramm {
         ware.getMaengelListe().add("Tolle neue Maske");
         ware.getBesonderheitenListe().add("sdfz");
         wareDao.update(ware);
+
         /*
         //Vertragspartner Erstellen
         System.out.println("\nVertragspartner erstellen");
