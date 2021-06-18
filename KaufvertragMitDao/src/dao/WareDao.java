@@ -172,40 +172,55 @@ public class WareDao {
     public void update(Ware ware) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-
-        //Verbindung zur Datenbank Herstellen
         try {
             connection = DriverManager.getConnection(CONNECTINGSTRING);
 
-            //Sql-Abfrage
-            String SQL = "UPDATE Ware set Bezeichnung = ? , Beschreibung = ?, Preis = ?, Besoderheiten = ?, Maengel = ?  WHERE WarenNr = ?";
+            String sql = "UPDATE Ware SET Bezeichnung = ?, Beschreibung = ?, Preis = ?, Besonderheiten = ?, Maengel = ? WHERE WarenNr = ?";
+
+            preparedStatement = connection.prepareStatement(sql);
+
             preparedStatement.setString(1, ware.getBezeichnung());
             preparedStatement.setString(2, ware.getBeschreibung());
             preparedStatement.setDouble(3, ware.getPreis());
-
-
-            preparedStatement.setArray(4, (Array) ware.getBesonderheitenListe());
-            preparedStatement.setArray(5, (Array) ware.getMaengelListe());
-            preparedStatement.setInt(6,2);
-
-            //SQl-Abfrage
-            preparedStatement.executeUpdate();
+            convertMaengelAndBesondeheitenToString(ware, preparedStatement);
 
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+                preparedStatement.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
             } finally {
                 try {
                     connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
                 }
             }
         }
     }
+    public void convertMaengelAndBesondeheitenToString(Ware ware, PreparedStatement preparedStatement) throws SQLException {
+        StringBuilder besonderheiten = null;
+        for (int i = 0; i < ware.getBesonderheitenListe().size(); i++) {
+            if (ware.getBesonderheitenListe().isEmpty()) {
+                besonderheiten.append(ware.getBesonderheitenListe().get(i));
+            } else {
+                besonderheiten.append(';').append(ware.getBesonderheitenListe().get(i));
+            }
+        }
+        preparedStatement.setString(4, besonderheiten.toString());
+        StringBuilder maengel = null;
+        for (int i = 0; i < ware.getMaengelListe().size(); i++) {
+            if (ware.getMaengelListe().isEmpty()) {
+                maengel.append(ware.getMaengelListe().get(i));
+            } else {
+                maengel.append(';').append(ware.getMaengelListe().get(i));
+            }
+        }
+        preparedStatement.setString(5, maengel.toString());
+        preparedStatement.setString(6, ware.getWarenNr());
 
+        preparedStatement.executeUpdate();
+    }
 }
