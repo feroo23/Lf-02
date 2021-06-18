@@ -1,12 +1,9 @@
 package dao;
 
-import businessObjects.Adresse;
-import businessObjects.Vertragspartner;
 import businessObjects.Ware;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class WareDao {
     private final String CLASSNAME = "org.sqlite.JDBC";
@@ -50,10 +47,10 @@ public class WareDao {
 
             String[] listBesonderheiten = besonderheiten.split(", ");
             String[] listMaengel = maengel.split(", ");
-            for (String s : listMaengel){
+            for (String s : listMaengel) {
                 ware.getMaengelListe().add(s);
             }
-            for (String h : listBesonderheiten){
+            for (String h : listBesonderheiten) {
                 ware.getBesonderheitenListe().add(h);
             }
 
@@ -75,12 +72,14 @@ public class WareDao {
             return ware;
         }
     }
+
     /**
      * Löscht einen Vertragspartner auf Basis seiner Ausweisnummer
+     *
      * @param warenNr Die Außweissnummer des Löschenden Vertragspartner.
      */
 
-    public void delete(String warenNr){
+    public void delete(String warenNr) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -91,7 +90,7 @@ public class WareDao {
             //Sql-Abfrage
             String SQL = "DELETE FROM ware WHERE WarenNr = ?";
             preparedStatement = connection.prepareStatement(SQL);
-            preparedStatement.setString(1, warenNr) ;
+            preparedStatement.setString(1, warenNr);
 
             //SQl-Abfrage
             preparedStatement.executeUpdate();
@@ -113,6 +112,7 @@ public class WareDao {
             }
         }
     }
+
     public ArrayList<Ware> read() throws SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -174,53 +174,61 @@ public class WareDao {
         PreparedStatement preparedStatement = null;
         try {
             connection = DriverManager.getConnection(CONNECTINGSTRING);
-
-            String sql = "UPDATE Ware SET Bezeichnung = ?, Beschreibung = ?, Preis = ?, Besonderheiten = ?, Maengel = ? WHERE WarenNr = ?";
-
+            //SQL-Abfrage erstellen
+            String sql = "UPDATE Ware set Bezeichnung = ?, Beschreibung = ?, Preis = ?, Besonderheiten = ?, Maengel = ? WHERE WarenNr = ?";
             preparedStatement = connection.prepareStatement(sql);
-
             preparedStatement.setString(1, ware.getBezeichnung());
             preparedStatement.setString(2, ware.getBeschreibung());
             preparedStatement.setDouble(3, ware.getPreis());
-            convertMaengelAndBesondeheitenToString(ware, preparedStatement);
+            String besonderheiten = "";
+            String maengel = "";
+            for (String z : ware.getBesonderheitenListe()) {
+                if (besonderheiten.isEmpty()) {
+                    besonderheiten = z;
+                } else {
+                    besonderheiten += "; " + z;
+                }
+            }
+            preparedStatement.setString(4, besonderheiten);
+            for (String u : ware.getMaengelListe()) {
+                if (maengel.isEmpty()) {
+                    besonderheiten = u;
+                } else {
+                    maengel = u;
+                }
+            }
+
+            preparedStatement.setString(5, maengel);
+            preparedStatement.setString(6, ware.getWarenNr());
+            //SQL-Abfrage ausführen
+            preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
                 preparedStatement.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
             } finally {
                 try {
                     connection.close();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
             }
         }
     }
-    public void convertMaengelAndBesondeheitenToString(Ware ware, PreparedStatement preparedStatement) throws SQLException {
-        StringBuilder besonderheiten = null;
-        for (int i = 0; i < ware.getBesonderheitenListe().size(); i++) {
-            if (ware.getBesonderheitenListe().isEmpty()) {
-                besonderheiten.append(ware.getBesonderheitenListe().get(i));
-            } else {
-                besonderheiten.append(';').append(ware.getBesonderheitenListe().get(i));
-            }
-        }
-        preparedStatement.setString(4, besonderheiten.toString());
-        StringBuilder maengel = null;
-        for (int i = 0; i < ware.getMaengelListe().size(); i++) {
-            if (ware.getMaengelListe().isEmpty()) {
-                maengel.append(ware.getMaengelListe().get(i));
-            } else {
-                maengel.append(';').append(ware.getMaengelListe().get(i));
-            }
-        }
-        preparedStatement.setString(5, maengel.toString());
-        preparedStatement.setString(6, ware.getWarenNr());
 
-        preparedStatement.executeUpdate();
+    private String liste(ArrayList<String> list) {
+        String er = "";
+        for (String s : list) {
+            if (er.isEmpty()) {
+                er = s;
+            } else {
+                er += "; " + s;
+            }
+        }
+        return er;
     }
 }

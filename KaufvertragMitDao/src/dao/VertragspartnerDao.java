@@ -155,32 +155,65 @@ public class VertragspartnerDao {
     public void update(Vertragspartner vertragspartner) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-
-        //Verbindung zur Datenbank Herstellen
         try {
             connection = DriverManager.getConnection(CONNECTINGSTRING);
 
-            //Sql-Abfrage
-            String SQL = "UPDATE Vertragspartner set Vorname = ?, Nachname = ? , Straße = ?, HausNr = ?, Plz = ?, Ort = ? WHERE Ausweisnummer";
-            preparedStatement = connection.prepareStatement(SQL);
-            preparedStatement.setString(1, vertragspartner.getVorname()) ;
-            preparedStatement.setString(2, vertragspartner.getNachname()) ;
+            String sql = "UPDATE Vertragspartner SET Vorname = ?, Nachname = ?, Straße = ?, HausNr = ?, Plz = ?, Ort = ? WHERE Ausweisnummer = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, vertragspartner.getVorname());
+            preparedStatement.setString(2, vertragspartner.getNachname());
             preparedStatement.setString(3, vertragspartner.getAdresse().getStrasse());
             preparedStatement.setString(4, vertragspartner.getAdresse().getHausNr());
             preparedStatement.setString(5, vertragspartner.getAdresse().getPlz());
-            preparedStatement.setString(6, vertragspartner.getAdresse().getPlz());
+            preparedStatement.setString(6, vertragspartner.getAdresse().getOrt());
+            preparedStatement.setString(7, vertragspartner.getAusweisNr());
 
-            //SQl-Abfrage
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
-                connection.close();
+                preparedStatement.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            } finally {
+                try {
+                    connection.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void crate(Vertragspartner vertragspartner) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = DriverManager.getConnection(CONNECTINGSTRING);
+            //SQL-Abfrage erstellen
+            String sql = "INSERT INTO vertragspartner (Vorname, Nachname, Straße, HausNr, Plz, Ort, Ausweisnummer) VALUES (?,?,?,?,?,?,?)";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, vertragspartner.getVorname());
+            preparedStatement.setString(2, vertragspartner.getNachname());
+            preparedStatement.setString(3, vertragspartner.getAdresse().getStrasse());
+            preparedStatement.setString(4, vertragspartner.getAdresse().getHausNr());
+            preparedStatement.setString(5, vertragspartner.getAdresse().getPlz());
+            preparedStatement.setString(6, vertragspartner.getAdresse().getOrt());
+            preparedStatement.setString(7, vertragspartner.getAusweisNr());
+            //SQL-Abfrage ausführen
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                preparedStatement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
-            } finally {
+            }finally {
                 try {
                     connection.close();
                 } catch (SQLException e) {
@@ -189,7 +222,6 @@ public class VertragspartnerDao {
             }
         }
     }
-
 }
 
 
