@@ -68,6 +68,34 @@ public class VertragspartnerDao {
             return vertragspartner;
         }
     }
+    private Vertragspartner createObject(ResultSet resultSet) throws SQLException {
+        Vertragspartner vertragspartner = null;
+        try {
+
+
+            //ResultSet auswerten(vgl. Ergebnistablle)
+            String nr = resultSet.getString("Ausweisnummer");
+            String vorname = resultSet.getString("Vorname");
+            String nachname = resultSet.getString("Nachname");
+            String Straße = resultSet.getString("Straße");
+            String HausNr = resultSet.getString("HausNr");
+            String Plz = resultSet.getString("Plz");
+            String Ort = resultSet.getString("Ort");
+
+
+            // Vertragspartner Objekt erstellen
+            vertragspartner = new Vertragspartner(vorname, nachname);
+            vertragspartner.setAusweisNr(nr);
+            Adresse adresse = new Adresse(Straße, HausNr, Plz, Ort);
+            vertragspartner.setAdresse(adresse);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+
+        return vertragspartner;
+    }
+
     /**
      * Löscht einen Vertragspartner auf Basis seiner Ausweisnummer
      * @param ausweisnummer Die Außweissnummer des Löschenden Vertragspartner.
@@ -187,7 +215,12 @@ public class VertragspartnerDao {
         }
     }
 
-    public void crate(Vertragspartner vertragspartner) {
+    /**
+     * Fügt einen Vertragspartner hinzu
+     * @param vertragspartner
+     * @return Vertragsparrtner
+     */
+    public Vertragspartner crate(Vertragspartner vertragspartner) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -221,7 +254,30 @@ public class VertragspartnerDao {
                 }
             }
         }
+        return vertragspartner;
     }
+    /*
+    public void SQLabfrage(PreparedStatement preparedStatement,Connection connection){
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }finally {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+    */
+
 }
 
 

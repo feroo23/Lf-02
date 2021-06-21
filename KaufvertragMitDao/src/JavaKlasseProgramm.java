@@ -1,13 +1,10 @@
 import businessObjects.Adresse;
 import businessObjects.Vertragspartner;
 import businessObjects.Ware;
-import com.sun.jdi.connect.spi.Connection;
 import dao.VertragspartnerDao;
 import dao.WareDao;
 
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class JavaKlasseProgramm {
 
@@ -40,17 +37,18 @@ public class JavaKlasseProgramm {
         ArrayList<Ware> wareListe = wareDao.read();
         System.out.println(wareListe);
 
+  */
+/*
         //Vertragspartner Löschen
         System.out.println("\nEinen Vertragspartner Löschen ");
         vertragspartnerDao.delete("1685bs461bs");
 
 
-        //Vertrags Ware Löschen
+
+        //Ware Löschen
         System.out.println("\nEinen Vertragspartner Löschen ");
-        wareDao.delete("4");
-
-  */
-
+        wareDao.delete("11");
+ */
         //Vertragspartner ändern
         System.out.println("\nEinene vertragspartner ändern");
         vertragspartner = vertragspartnerDao.read("123654918b");
@@ -63,15 +61,15 @@ public class JavaKlasseProgramm {
         //Ware ändern
         System.out.println("\nEinene Ware ändern");
         ware = wareDao.read("2");
-        ware.setBezeichnung("Hayat");
-        ware.setBeschreibung("KA");
+        ware.setBezeichnung("Huch");
+        ware.setBeschreibung("Was");
         ware.setPreis(500);
-        ware.getMaengelListe().add("Tolle neue Maske");
-        ware.getBesonderheitenListe().add("sdfz");
+        ware.getMaengelListe().add("stinkt");
+        ware.getBesonderheitenListe().add("frag nicht");
         wareDao.update(ware);
 
         /*
-        //Vertragspartner Erstellen
+        //Vertragspartner Erstellen (Lang)
         System.out.println("\nVertragspartner erstellen");
         vertragspartner = vertragspartnerDao.read("123654918b");
         vertragspartner.setAusweisNr("756984123D");
@@ -80,7 +78,28 @@ public class JavaKlasseProgramm {
         Adresse adresseerstellen = new Adresse("Elaster","8","28307","Bremen");
         vertragspartner.setAdresse(adresseerstellen);
         vertragspartnerDao.crate(vertragspartner);
-
          */
+
+        /*
+        //Vertragspartner Erstellen (Kurz)
+        System.out.println("\nVertagspartner erstellen");
+        Vertragspartner vertragspartnerneu = new Vertragspartner("Jan","Wohl");
+        vertragspartnerneu.setAusweisNr("456874562H");
+        Adresse veradresse = new Adresse("Falkenstraße", "37","28546","Bremen");
+        vertragspartnerneu.setAdresse(veradresse);
+        vertragspartnerDao.crate(vertragspartnerneu);
+         */
+
+/*
+        //Ware Erstellen
+        System.out.println("\nEine Ware erstellen");
+        Ware ware1 = new Ware("Etwas",10);
+       // ware1.setWarenNr("1");
+        ware1.setBeschreibung("Grün");
+        ware1.getBesonderheitenListe().add("Sieht schön aus");
+        ware1.getMaengelListe().add(null);
+        wareDao.crate(ware1);
+ */
+
     }
 }

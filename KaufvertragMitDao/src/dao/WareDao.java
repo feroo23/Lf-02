@@ -2,6 +2,7 @@ package dao;
 
 import businessObjects.Ware;
 
+import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -34,7 +35,6 @@ public class WareDao {
             resultSet.next();
 
             //resultSet Auswerten l
-            String nr = resultSet.getString("WarenNr");
             String bezeichnung = resultSet.getString("Bezeichnung");
             String beschreibung = resultSet.getString("Beschreibung");
             int preis = resultSet.getInt("Preis");
@@ -43,7 +43,7 @@ public class WareDao {
 
             ware = new Ware(bezeichnung, preis);
             ware.setBeschreibung(beschreibung);
-            ware.setWarenNr(warenNr);
+
 
             String[] listBesonderheiten = besonderheiten.split(", ");
             String[] listMaengel = maengel.split(", ");
@@ -134,7 +134,6 @@ public class WareDao {
                 String maengel = resultSet.getString("Maengel");
 
                 ware = new Ware(bezeichnung, preis);
-                ware.setWarenNr(nr);
                 ware.setBeschreibung(beschreibung);
 
                 if (besonderheiten != null) {
@@ -169,7 +168,7 @@ public class WareDao {
         return wareListe;
     }
 
-    public void update(Ware ware) {
+    public Ware update(Ware ware) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -186,9 +185,10 @@ public class WareDao {
 
             preparedStatement.setString(4,besonderheiten);
             preparedStatement.setString(5,maengel);
-            preparedStatement.setString(6, ware.getWarenNr());
+            preparedStatement.setInt(6, ware.getWarenNr());
             //SQL-Abfrage ausführen
             preparedStatement.executeUpdate();
+
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -204,7 +204,7 @@ public class WareDao {
                     e.printStackTrace();
                 }
             }
-        }
+        }return ware;
     }
 
     private String liste(ArrayList<String> list) {
@@ -225,7 +225,7 @@ public class WareDao {
         try {
             connection = DriverManager.getConnection(CONNECTINGSTRING);
             //SQL-Abfrage erstellen
-            String sql = "INSERT INTO Ware (Bezeichnung, Beschreibung , Preis , Besonderheiten , Maengel) WHERE WarenNr = ?";
+            String sql = "INSERT INTO Ware (Bezeichnung, Beschreibung , Preis , Besonderheiten , Maengel) values (?,?,?,?,?)";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, ware.getBezeichnung());
             preparedStatement.setString(2, ware.getBeschreibung());
@@ -236,9 +236,14 @@ public class WareDao {
 
             preparedStatement.setString(4,besonderheiten);
             preparedStatement.setString(5,maengel);
-            preparedStatement.setString(6, ware.getWarenNr());
+
             //SQL-Abfrage ausführen
             preparedStatement.executeUpdate();
+
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            resultSet.next();
+            int  warenNr = resultSet.getInt("last_insert_rowid()");//
+            ware.setWarenNr(warenNr);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -256,18 +261,9 @@ public class WareDao {
             }
         }
     }
+    private void SQLAbfrage() {
 
-    private String liste(ArrayList<String> list) {
-        String s = "";
-        for (int i = 0; i < list.size(); i++) {
-            if (i <= list.size() - 1) {
-                s += list.get(i) + ';';
-            } else {
-                s += list.get(i);
-            }
-        }
-        return s;
     }
 
 }
-}
+
