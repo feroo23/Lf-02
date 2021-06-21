@@ -219,4 +219,55 @@ public class WareDao {
         return s;
     }
 
+    public void crate (Ware ware){
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = DriverManager.getConnection(CONNECTINGSTRING);
+            //SQL-Abfrage erstellen
+            String sql = "INSERT INTO Ware (Bezeichnung, Beschreibung , Preis , Besonderheiten , Maengel) WHERE WarenNr = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, ware.getBezeichnung());
+            preparedStatement.setString(2, ware.getBeschreibung());
+            preparedStatement.setDouble(3, ware.getPreis());
+
+            String besonderheiten = liste(ware.getBesonderheitenListe());
+            String maengel = liste(ware.getMaengelListe());
+
+            preparedStatement.setString(4,besonderheiten);
+            preparedStatement.setString(5,maengel);
+            preparedStatement.setString(6, ware.getWarenNr());
+            //SQL-Abfrage ausführen
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private String liste(ArrayList<String> list) {
+        String s = "";
+        for (int i = 0; i < list.size(); i++) {
+            if (i <= list.size() - 1) {
+                s += list.get(i) + ';';
+            } else {
+                s += list.get(i);
+            }
+        }
+        return s;
+    }
+
+}
 }
