@@ -71,8 +71,6 @@ public class VertragspartnerDao {
     private Vertragspartner createObject(ResultSet resultSet) throws SQLException {
         Vertragspartner vertragspartner = null;
         try {
-
-
             //ResultSet auswerten(vgl. Ergebnistablle)
             String nr = resultSet.getString("Ausweisnummer");
             String vorname = resultSet.getString("Vorname");

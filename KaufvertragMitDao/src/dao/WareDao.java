@@ -44,7 +44,6 @@ public class WareDao {
             ware = new Ware(bezeichnung, preis);
             ware.setBeschreibung(beschreibung);
 
-
             String[] listBesonderheiten = besonderheiten.split(", ");
             String[] listMaengel = maengel.split(", ");
             for (String s : listMaengel) {
@@ -53,7 +52,6 @@ public class WareDao {
             for (String h : listBesonderheiten) {
                 ware.getBesonderheitenListe().add(h);
             }
-
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -261,9 +259,5 @@ public class WareDao {
             }
         }
     }
-    private void SQLAbfrage() {
-
-    }
-
 }
 
