@@ -15,7 +15,7 @@ public class VertragspartnerDao {
         Class.forName(CLASSNAME);
     }
 
-    public Vertragspartner read(String ausweisnummer) throws SQLException {
+    public Vertragspartner read(String ausweisnummer) throws DaoException {
         Connection connection = null;
         PreparedStatement prepareStatement = null;
         Vertragspartner vertragspartner = null;
@@ -35,21 +35,12 @@ public class VertragspartnerDao {
             //Zeiger auf dem Datensatz setzen
             resultSet.next();
 
-            //resultSet Auswerten l
-            String nr = resultSet.getString("Ausweisnummer");
-            String vorname = resultSet.getString("Vorname");
-            String nachname = resultSet.getString("nachname");
-            String Straße = resultSet.getString("Straße");
-            String HausNr = resultSet.getString("HausNr");
-            String Plz = resultSet.getString("Plz");
-            String Ort = resultSet.getString("Ort");
-
-            //Vertragspartner
-            vertragspartner = new Vertragspartner(vorname, nachname);
-            vertragspartner.setAusweisNr(ausweisnummer);
-            Adresse adresse = new Adresse(Straße, HausNr, Plz, Ort);
-            vertragspartner.setAdresse(adresse);
-
+            //ResultSet auswerten(vgl. Ergebnistablle)
+            try {
+                vertragspartner = createObject(resultSet );
+            } catch (DaoException e ){
+                throw new DaoException(e.getMessage());
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -65,10 +56,57 @@ public class VertragspartnerDao {
                     e.printStackTrace();
                 }
             }
-            return vertragspartner;
         }
+        return vertragspartner;
     }
-    private Vertragspartner createObject(ResultSet resultSet) throws SQLException {
+
+    public ArrayList<Vertragspartner> read() {
+        ArrayList<Vertragspartner> vertragspartnerListe = new ArrayList<>();
+        Vertragspartner vertragspartner = null;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        // Verbindung zur Datenbank herstellen
+        try {
+            connection = DriverManager.getConnection(CONNECTINGSTRING);
+
+            // SQL-abfrage erstellen
+            String sql = "SELECT * FROM vertragspartner";
+            preparedStatement = connection.prepareStatement(sql);
+
+            //SQL-Abfrage ausführen
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+
+
+            //Zeiger auf den ersten Datensatz setzten
+            while (resultSet.next()) {
+
+                vertragspartnerListe.add(createObject(resultSet));
+            }
+
+        } catch (SQLException | DaoException e){
+            e.printStackTrace();
+        }
+        finally {
+
+
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }finally {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return vertragspartnerListe;
+
+    }
+
+    private Vertragspartner createObject(ResultSet resultSet) throws DaoException {
         Vertragspartner vertragspartner = null;
         try {
             //ResultSet auswerten(vgl. Ergebnistablle)
@@ -80,17 +118,15 @@ public class VertragspartnerDao {
             String Plz = resultSet.getString("Plz");
             String Ort = resultSet.getString("Ort");
 
-
             // Vertragspartner Objekt erstellen
             vertragspartner = new Vertragspartner(vorname, nachname);
             vertragspartner.setAusweisNr(nr);
             Adresse adresse = new Adresse(Straße, HausNr, Plz, Ort);
             vertragspartner.setAdresse(adresse);
+
         }catch (SQLException e){
-            e.printStackTrace();
+            throw new DaoException("Angeforderter Datensatz wurde nicht gefunden");
         }
-
-
         return vertragspartner;
     }
 
@@ -132,47 +168,7 @@ public class VertragspartnerDao {
         }
     }
 
-    public ArrayList<Vertragspartner> read() throws SQLException {
-        Connection connection = null;
-        PreparedStatement prepareStatment = null;
-        Vertragspartner vertragspartner = null;
-        ArrayList<Vertragspartner> vertragsPartnerliste = null;
-        try {
-            connection = DriverManager.getConnection(CONNECTINGSTRING);
-            String sql = "Select * FROM vertragspartner ";
-            prepareStatment = connection.prepareStatement(sql);
-            ResultSet resultSet = prepareStatment.executeQuery();
-            while (resultSet.next()) {
-                String nr = resultSet.getString("AusweisNummer");
-                String vorname = resultSet.getString("Vorname");
-                String nachname = resultSet.getString("Nachname");
-                String starße = resultSet.getString("Straße");
-                String hausNr = resultSet.getString("HausNr");
-                String plz = resultSet.getString("PLZ");
-                String ort = resultSet.getString("Ort");
-                vertragspartner = new Vertragspartner(vorname, nachname);
 
-                Adresse adresse = new Adresse(starße, hausNr, plz, ort);
-                vertragspartner.setAdresse(adresse);
-                vertragsPartnerliste.add(vertragspartner);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                prepareStatment.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            return vertragsPartnerliste;
-        }
-    }
 
     /**
      * Aktualisiert Vertragspartner
@@ -218,7 +214,7 @@ public class VertragspartnerDao {
      * @param vertragspartner
      * @return Vertragsparrtner
      */
-    public Vertragspartner crate(Vertragspartner vertragspartner) {
+    public Vertragspartner crate(Vertragspartner vertragspartner) throws DaoException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -237,7 +233,7 @@ public class VertragspartnerDao {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e){
-            e.printStackTrace();
+            throw new DaoException("Doppelte ausweisnummer, Der vertragspartner mit der ausweisnummer " + vertragspartner.getAusweisNr());
         }
         finally {
             try {

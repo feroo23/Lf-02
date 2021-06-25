@@ -16,6 +16,6 @@ public class DaoException extends Exception{
 
     @Override
     public String getMessage() {
-        return this.getMessage();
+        return this.message;
     }
 }

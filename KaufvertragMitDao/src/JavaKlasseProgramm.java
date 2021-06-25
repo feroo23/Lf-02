@@ -1,6 +1,7 @@
 import businessObjects.Adresse;
 import businessObjects.Vertragspartner;
 import businessObjects.Ware;
+import dao.DaoException;
 import dao.VertragspartnerDao;
 import dao.WareDao;
 
@@ -11,7 +12,12 @@ public class JavaKlasseProgramm {
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         VertragspartnerDao vertragspartnerDao = new VertragspartnerDao();
         System.out.println("\nEinen Vertragspartner lesen");
-        Vertragspartner vertragspartner = vertragspartnerDao.read("123654918b");
+        Vertragspartner vertragspartner = null;
+        try {
+            vertragspartner = vertragspartnerDao.read("123654918b");
+        }catch (DaoException e ){
+            System.out.println(e.getMessage());
+        }
         System.out.println(vertragspartner);
 
 /*
@@ -51,7 +57,12 @@ public class JavaKlasseProgramm {
  */
         //Vertragspartner ändern
         System.out.println("\nEinene vertragspartner ändern");
-        vertragspartner = vertragspartnerDao.read("123654918b");
+        try {
+            vertragspartner = vertragspartnerDao.read("123654918b");
+
+        }catch (DaoException e){
+            System.out.println(e.getMessage());
+        }
         vertragspartner.setVorname("Ferhat");
         vertragspartner.setNachname("Gümüs");
         Adresse Hb = new Adresse("Kirchhuchtinger Landstraße ", "165A", "28259","Bremen");
