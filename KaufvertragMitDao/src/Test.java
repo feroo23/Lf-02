@@ -4,16 +4,14 @@ import dao.DaoException;
 import dao.VertragspartnerDao;
 import service.IO;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Test {
 
     public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException, DaoException {
         abfrage();
+
     }
 
 
@@ -56,6 +54,25 @@ public class Test {
         System.out.println("                                                        ");
     }
 
+    private static void wollen() throws IOException {
+        System.out.println("-----------------------------------");
+        System.out.println("||****   Was wollen sie tun   ****||");
+        System.out.println("||                                ||");
+        System.out.println("||[A] Weitere Daten erfassen      ||");
+        System.out.println("||[B] Zurück zur auswahl          ||");
+        System.out.println("||[C] Waren/Vertragsparter auswahl||");
+        System.out.println("||[X] Benden                      ||");
+        System.out.println("-----------------------------------");
+        String eingabe = IO.readString();
+        switch (eingabe.toLowerCase()){
+
+        }
+
+
+
+       return;
+    }
+
     private static void vertagspartner() throws IOException, InterruptedException, ClassNotFoundException, DaoException {
         System.out.println("-----------------------------------");
         System.out.println("||*****   Vertragspartner   *****||");
@@ -91,42 +108,48 @@ public class Test {
         }
     }
 
-    private static void vertraspartnerHinzufügen() throws DaoException, ClassNotFoundException, IOException {
+    private static void vertraspartnerHinzufügen() throws DaoException, ClassNotFoundException, IOException, InterruptedException {
         VertragspartnerDao vertragspartnerDao = new VertragspartnerDao();
+        Adresse adresse = null;
         System.out.println("\nBitte Geben sie die Daten Für ein Vertragspartner ein.");
+        System.out.print("\tAusweisnummer: ");
+        String ausnr = IO.readString();
         System.out.print("\tvorname: ");
         String name = IO.readString();
         System.out.print("\tNachname: ");
         String nachname = IO.readString();
         System.out.println("Wollen sie eine Adresse eingeben");
 
+        String str = " ";
+        String hnr = " ";
+        String plz = " ";
+        String ort = " ";
+        adresse = new Adresse(str,hnr,plz,ort);
+
         boolean jein = IO.readBoolean();
-        if (jein = true){
+        if (jein = false){
             System.out.println("\nAdresse");
             System.out.print("\tStraße: ");
-            String str = IO.readString();
+            str = IO.readString();
             System.out.print("\tHausNr: ");
-            String hnr = IO.readString();
+            hnr = IO.readString();
             System.out.print("\tPlz: ");
-            String plz = IO.readString();
+            plz = IO.readString();
             System.out.print("\tBremen:");
-            String ort = IO.readString();
+            ort = IO.readString();
 
-            Adresse adresse = new Adresse(str,hnr,plz,ort);
-        }else {
-            Vertragspartner vertragspartner = new Vertragspartner(name, nachname);
+
+            adresse = new Adresse(str,hnr,plz,ort);
         }
-
-
-
-
-
-
-
-
+        Vertragspartner vertragspartner = new Vertragspartner(name, nachname);
+        vertragspartner.setAusweisNr(ausnr);
+        vertragspartner.setAdresse(adresse);
+        vertragspartnerDao.create(vertragspartner);
+        loading();
+        System.out.println("Vertragspartner wurder erstellet");
     }
 
-    private static void vertagspartnerAnzeigen() throws IOException, InterruptedException {
+    private static void vertagspartnerAnzeigen() throws IOException, InterruptedException, ClassNotFoundException {
         System.out.println("-----------------------------------");
         System.out.println("||*****   Vertragspartner   *****||");
         System.out.println("||                               ||");
@@ -152,8 +175,19 @@ public class Test {
         }
     }
 
-    private static void einenBestimmtenAnzeigen(){
+    private static void einenBestimmtenAnzeigen() throws IOException, ClassNotFoundException {
+        VertragspartnerDao vertragspartnerDao = new VertragspartnerDao();
         System.out.println("Bitte geben sie die ausweisnummer ");
+        String lesen = IO.readString();
+        Vertragspartner vertragspartner = null;
+        try {
+            vertragspartner = vertragspartnerDao.read(lesen);
+        }catch (DaoException e ){
+            System.out.println(e.getMessage());
+        }
+        System.out.println(vertragspartner);
+
+
 
     }
 

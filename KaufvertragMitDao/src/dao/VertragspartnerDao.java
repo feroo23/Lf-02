@@ -214,7 +214,7 @@ public class VertragspartnerDao {
      * @param vertragspartner
      * @return Vertragsparrtner
      */
-    public Vertragspartner crate(Vertragspartner vertragspartner) throws DaoException {
+    public Vertragspartner create(Vertragspartner vertragspartner) throws DaoException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
