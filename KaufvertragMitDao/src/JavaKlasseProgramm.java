@@ -6,29 +6,30 @@ import dao.VertragspartnerDao;
 import dao.WareDao;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class JavaKlasseProgramm {
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        VertragspartnerDao vertragspartnerDao = new VertragspartnerDao();
-        System.out.println("\nEinen Vertragspartner lesen");
+       VertragspartnerDao vertragspartnerDao = new VertragspartnerDao();
+       //  System.out.println("\nEinen Vertragspartner lesen");
         Vertragspartner vertragspartner = null;
-        try {
+       try {
             vertragspartner = vertragspartnerDao.read("123654918b");
         }catch (DaoException e ){
             System.out.println(e.getMessage());
         }
         System.out.println(vertragspartner);
-
 /*
+
+
+
         //Alle Vertragspartner Ausgeben
-        //   VertragspartnerDao vertragspartnerDao = new VertragspartnerDao();
+        VertragspartnerDao vertragspartnerDao = new VertragspartnerDao();
         System.out.println("\nAlle Vertragspartner ausgeben");
         ArrayList<Vertragspartner> vertragspartnerArrayList = vertragspartnerDao.read();
         System.out.println(vertragspartnerArrayList);
 
-
-*/
 
         //Ware Ausgeben (Einen)
         WareDao wareDao = new WareDao();
@@ -36,15 +37,15 @@ public class JavaKlasseProgramm {
         System.out.println(ware);
 
 
- /*
+
         //Alle Waren Ausgeben
       //  WareDao wareDao = new WareDao();
         System.out.println("\nAlle Waren ausgeben");
         ArrayList<Ware> wareListe = wareDao.read();
         System.out.println(wareListe);
 
-  */
-/*
+
+
         //Vertragspartner Löschen
         System.out.println("\nEinen Vertragspartner Löschen ");
         vertragspartnerDao.delete("1685bs461bs");
@@ -54,7 +55,8 @@ public class JavaKlasseProgramm {
         //Ware Löschen
         System.out.println("\nEinen Vertragspartner Löschen ");
         wareDao.delete("11");
- */
+
+*/
         //Vertragspartner ändern
         System.out.println("\nEinene vertragspartner ändern");
         try {
@@ -69,6 +71,7 @@ public class JavaKlasseProgramm {
         vertragspartner.setAdresse(Hb);
         vertragspartnerDao.update(vertragspartner);
 
+        /*
         //Ware ändern
         System.out.println("\nEinene Ware ändern");
         ware = wareDao.read("2");
@@ -79,7 +82,7 @@ public class JavaKlasseProgramm {
         ware.getBesonderheitenListe().add("frag nicht");
         wareDao.update(ware);
 
-        /*
+
         //Vertragspartner Erstellen (Lang)
         System.out.println("\nVertragspartner erstellen");
         vertragspartner = vertragspartnerDao.read("123654918b");
@@ -89,9 +92,8 @@ public class JavaKlasseProgramm {
         Adresse adresseerstellen = new Adresse("Elaster","8","28307","Bremen");
         vertragspartner.setAdresse(adresseerstellen);
         vertragspartnerDao.crate(vertragspartner);
-         */
 
-        /*
+
         //Vertragspartner Erstellen (Kurz)
         System.out.println("\nVertagspartner erstellen");
         Vertragspartner vertragspartnerneu = new Vertragspartner("Jan","Wohl");
@@ -99,18 +101,23 @@ public class JavaKlasseProgramm {
         Adresse veradresse = new Adresse("Falkenstraße", "37","28546","Bremen");
         vertragspartnerneu.setAdresse(veradresse);
         vertragspartnerDao.crate(vertragspartnerneu);
-         */
 
-/*
-        //Ware Erstellen
+
+*/
+     /*   //Ware Erstellen
         System.out.println("\nEine Ware erstellen");
         Ware ware1 = new Ware("Etwas",10);
-       // ware1.setWarenNr("1");
+        ware1.setWarenNr("1");
         ware1.setBeschreibung("Grün");
         ware1.getBesonderheitenListe().add("Sieht schön aus");
         ware1.getMaengelListe().add(null);
         wareDao.crate(ware1);
- */
+
+
+
+
+
+      */
 
     }
 }
