@@ -12,10 +12,9 @@ public class WareDao {
 
     public WareDao() throws ClassNotFoundException {
         Class.forName(CLASSNAME);
-        System.out.println("Ware Hinzufügen");
     }
 
-    public Ware read(String warenNr) throws SQLException {
+    public Ware read(String warenNr) throws DaoException {
         Connection connection = null;
         PreparedStatement prepareStatement = null;
         Ware ware = null;
@@ -35,22 +34,31 @@ public class WareDao {
             resultSet.next();
 
             //resultSet Auswerten l
-            String bezeichnung = resultSet.getString("Bezeichnung");
-            String beschreibung = resultSet.getString("Beschreibung");
-            int preis = resultSet.getInt("Preis");
-            String besonderheiten = resultSet.getString("Besonderheiten");
-            String maengel = resultSet.getString("Maengel");
+            try {
+                try {
+                    String bezeichnung = resultSet.getString("Bezeichnung");
+                    String beschreibung = resultSet.getString("Beschreibung");
+                    int preis = resultSet.getInt("Preis");
+                    String besonderheiten = resultSet.getString("Besonderheiten");
+                    String maengel = resultSet.getString("Maengel");
 
-            ware = new Ware(bezeichnung, preis);
-            ware.setBeschreibung(beschreibung);
-
-            String[] listBesonderheiten = besonderheiten.split(", ");
-            String[] listMaengel = maengel.split(", ");
-            for (String s : listMaengel) {
-                ware.getMaengelListe().add(s);
-            }
-            for (String h : listBesonderheiten) {
-                ware.getBesonderheitenListe().add(h);
+                    ware = new Ware(bezeichnung, preis);
+                    ware.setBeschreibung(beschreibung);
+                    int nr = Integer.parseInt(warenNr);
+                    ware.setWarenNr(nr);
+                    String[] listBesonderheiten = besonderheiten.split(", ");
+                    String[] listMaengel = maengel.split(", ");
+                    for (String s : listMaengel) {
+                        ware.getMaengelListe().add(s);
+                    }
+                    for (String h : listBesonderheiten) {
+                        ware.getBesonderheitenListe().add(h);
+                    }
+                } catch (SQLException ex) {
+                    throw new DaoException("TEST");
+                }
+            } catch (DaoException e) {
+                System.out.println(e.getMessage());
             }
 
         } catch (SQLException e) {
@@ -124,7 +132,7 @@ public class WareDao {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                String nr = resultSet.getString("WarenNr");
+                int nr = resultSet.getInt("WarenNr");
                 String bezeichnung = resultSet.getString("Bezeichnung");
                 String beschreibung = resultSet.getString("Beschreibung");
                 double preis = resultSet.getDouble("Preis");
@@ -132,6 +140,7 @@ public class WareDao {
                 String maengel = resultSet.getString("Maengel");
 
                 ware = new Ware(bezeichnung, preis);
+                ware.setWarenNr(nr);
                 ware.setBeschreibung(beschreibung);
 
                 if (besonderheiten != null) {
