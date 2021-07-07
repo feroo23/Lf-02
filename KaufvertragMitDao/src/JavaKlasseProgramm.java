@@ -10,7 +10,8 @@ import java.util.ArrayList;
 
 public class JavaKlasseProgramm {
 
-    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+    public static void main(String[] args) throws ClassNotFoundException, SQLException, DaoException {
+        /*
        VertragspartnerDao vertragspartnerDao = new VertragspartnerDao();
        //  System.out.println("\nEinen Vertragspartner lesen");
         Vertragspartner vertragspartner = null;
@@ -20,7 +21,7 @@ public class JavaKlasseProgramm {
             System.out.println(e.getMessage());
         }
         System.out.println(vertragspartner);
-/*
+
 
 
 
@@ -56,7 +57,7 @@ public class JavaKlasseProgramm {
         System.out.println("\nEinen Vertragspartner Löschen ");
         wareDao.delete("11");
 
-*/
+
         //Vertragspartner ändern
         System.out.println("\nEinene vertragspartner ändern");
         try {
@@ -71,7 +72,7 @@ public class JavaKlasseProgramm {
         vertragspartner.setAdresse(Hb);
         vertragspartnerDao.update(vertragspartner);
 
-        /*
+
         //Ware ändern
         System.out.println("\nEinene Ware ändern");
         ware = wareDao.read("2");

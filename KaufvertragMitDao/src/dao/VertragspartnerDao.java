@@ -88,8 +88,6 @@ public class VertragspartnerDao {
             e.printStackTrace();
         }
         finally {
-
-
             try {
                 preparedStatement.close();
             } catch (SQLException e) {

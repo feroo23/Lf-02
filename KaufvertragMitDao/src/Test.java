@@ -501,7 +501,6 @@ public class Test {
     }
     private static void wareHinzufügenAbfrage() throws IOException, ClassNotFoundException, DaoException, InterruptedException, SQLException {
         wollen();
-        wollen();
         String wo = IO.readString();
         switch (wo.toLowerCase()) {
             case "a":
@@ -681,26 +680,59 @@ public class Test {
 
     }
     private static void wareÄndernAbfrage(String warennumer) throws IOException, InterruptedException, DaoException, SQLException, ClassNotFoundException {
-        VertragspartnerDao vertragspartnerDao = new VertragspartnerDao();
+        WareDao wareDao = new WareDao();
+        Ware ware = wareDao.read(warennumer);
         System.out.println("-----------------------------------");
         System.out.println("||***  Was wollen sie ändern  ***||");
         System.out.println("||                               ||");
-        System.out.println("||[A] Vorname/Nachname           ||");
-        System.out.println("||[B] Adresse                    ||");
-        System.out.println("||[C] Allllleesss                ||");
+        System.out.println("||[A] Bezeichnung                ||");
+        System.out.println("||[B] Beschreibung               ||");
+        System.out.println("||[C] Preis                      ||");
+        System.out.println("||[D] Besonderheiten             ||");
+        System.out.println("||[E] Maengel                    ||");
         System.out.println("||[Z] Zurück                     ||");
         System.out.println("||[X] Benden                     ||");
         System.out.println("-----------------------------------");
         String x = IO.readString();
         switch (x.toLowerCase()) {
             case "a":
-
+                System.out.println("geben sie ihrer neue Bezeichnung ein");
+                String bezeichnung = IO.readString();
+                ware.setBezeichnung(bezeichnung);
+                wareDao.update(ware);
+                ware = wareDao.read(warennumer);
+                wareÄndernAbfrageWollen(warennumer);
                 break;
             case "b":
-
+                System.out.println("geben sie ihrer neue Beschreibung ein");
+                String beschreibung = IO.readString();
+                ware.setBeschreibung(beschreibung);
+                wareDao.update(ware);
+                ware = wareDao.read(warennumer);
+                wareÄndernAbfrageWollen(warennumer);
                 break;
             case "c":
-
+                System.out.println("geben neuen Preis ein");
+                ware.setPreis(500);
+                wareDao.update(ware);
+                ware = wareDao.read(warennumer);
+                wareÄndernAbfrageWollen(warennumer);
+                break;
+            case"d":
+                System.out.println("Geben sie eine neue Besonderheit ein");
+                String besonderheit = IO.readString();
+                ware.getBesonderheitenListe().add(besonderheit);
+                wareDao.update(ware);
+                ware = wareDao.read(warennumer);
+                wareÄndernAbfrageWollen(warennumer);
+                break;
+            case"e":
+                System.out.println("Geben sie die Maengel ein");
+                String maengel = IO.readString();
+                ware.getMaengelListe().add(maengel);
+                wareDao.update(ware);
+                ware = wareDao.read(warennumer);
+                wareÄndernAbfrageWollen(warennumer);
                 break;
             case"z":
                 vertagspartner();
@@ -711,6 +743,30 @@ public class Test {
             default:
                 System.err.println("Falsche eingabe erneut versuchen");
              //   vertragspartnerändernAbfrage(ausweisnummer);
+        }
+    }
+
+    private static void wareÄndernAbfrageWollen(String warennummer) throws IOException, InterruptedException, ClassNotFoundException, SQLException, DaoException {
+        wollen();
+        String x = IO.readString();
+        if(x.equalsIgnoreCase("a")){
+            wareÄndernAbfrage(warennummer);
+        }
+        else if (x.equalsIgnoreCase("b")){
+            wareAnzeigen();
+        }
+        else if (x.equalsIgnoreCase("c")){
+            abfrage();
+        }
+        else if(x.equalsIgnoreCase("z")){
+            ware();
+        }
+        else if (x.equalsIgnoreCase("x")){
+            benden();
+        }
+        else {
+            System.err.println("Falsche eingaaaaaaaaabe erneut versuchen ");
+            wareÄndernAbfrageWollen(null);
         }
     }
 }
