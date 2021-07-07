@@ -20,7 +20,7 @@ public class EmailKontaktDao {
         try {
             connection = DriverManager.getConnection(CONNECTINGSTRING);
 
-            String sql = "SELECT * FROM Email WHERE Id = ?";
+            String sql = "SELECT * FROM Email WHERE ID = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, ID);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -41,7 +41,7 @@ public class EmailKontaktDao {
     private EmailKontakt creatObject(ResultSet resultSet) throws SQLException {
         EmailKontakt emailKontakt;
 
-        Integer id = resultSet.getInt("ID");
+        int id  = resultSet.getInt("ID");
         String vorname = resultSet.getString("Vorname");
         String nachname = resultSet.getString("Nachname");
         String emailadresse = resultSet.getString("Emailadresse");
@@ -51,16 +51,55 @@ public class EmailKontaktDao {
         return emailKontakt;
     }
 
-    public void previous(EmailKontakt emailKontakt) {
+    public EmailKontakt previous(EmailKontakt emailKontakt) throws MailException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = DriverManager.getConnection(CONNECTINGSTRING);
 
-        return;
+            String sql = "SELECT * FROM Email WHERE ID = < ? GROUP BY ID DESC LIMIT 1";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, emailKontakt.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+
+            emailKontakt = creatObject(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new MailException("Datensatz nicht vorhanden");
+        } finally {
+            if (connection != null) {
+                close(connection, preparedStatement);
+            }
+        }
+        return emailKontakt;
     }
 
-    public void next(EmailKontakt emailKontakt) {
+    public EmailKontakt next(EmailKontakt emailKontakt) throws MailException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = DriverManager.getConnection(CONNECTINGSTRING);
 
+            String sql = "SELECT * FROM Email WHERE ID = >? GROUP BY ID LIMIT 1";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, emailKontakt.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+
+            emailKontakt = creatObject(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new MailException("Datensatz nicht vorhanden");
+        } finally {
+            if (connection != null) {
+                close(connection, preparedStatement);
+            }
+        }
+        return emailKontakt;
     }
 
-    public void first(int ID) throws MailException {
+    public EmailKontakt first() throws MailException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         EmailKontakt emailKontakt;
@@ -81,12 +120,13 @@ public class EmailKontaktDao {
                 close(connection, preparedStatement);
             }
         }
+        return emailKontakt;
     }
 
-    public void last(EmailKontakt emailKontakt) throws MailException {
+    public EmailKontakt last() throws MailException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        EmailKontakt emailKontakt1;
+        EmailKontakt emailKontakt;
         try {
             connection = DriverManager.getConnection(CONNECTINGSTRING);
 
@@ -104,6 +144,7 @@ public class EmailKontaktDao {
                 close(connection, preparedStatement);
             }
         }
+        return emailKontakt;
 
     }
 
@@ -113,12 +154,11 @@ public class EmailKontaktDao {
         try {
             connection = DriverManager.getConnection(CONNECTINGSTRING);
 
-            String sql = "INSERT INTO Email  (Vornsme, Nachname, Emailadresse,ID) VALUES (?,?,?,?)";
+            String sql = "INSERT INTO Email  (Vorname, Nachname, Emailadresse) VALUES (?,?,?)";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, emailKontakt.getVorname());
             preparedStatement.setString(2, emailKontakt.getNachname());
             preparedStatement.setString(3, emailKontakt.getEmailadresse());
-            preparedStatement.setInt(4,emailKontakt.getId());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -136,11 +176,12 @@ public class EmailKontaktDao {
         try {
             connection = DriverManager.getConnection(CONNECTINGSTRING);
 
-            String sql = "UPDATE Email SET Vornsme = ?, Nachname = ?, Emailadresse = ? WHERE ID = ?";
+            String sql = "UPDATE Email SET Vorname = ?, Nachname = ?, Emailadresse = ? WHERE ID = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, emailKontakt.getVorname());
             preparedStatement.setString(2, emailKontakt.getNachname());
             preparedStatement.setString(3, emailKontakt.getEmailadresse());
+            preparedStatement.setInt(4, emailKontakt.getId());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -152,7 +193,7 @@ public class EmailKontaktDao {
         }
     }
 
-    public  void delete(EmailKontakt emailKontakt) throws SQLException {
+    public  void delete(int id) throws MailException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -163,13 +204,13 @@ public class EmailKontaktDao {
             //Sql-Abfrage
             String SQL = "DELETE FROM EMail WHERE id = ?";
             preparedStatement = connection.prepareStatement(SQL);
-            preparedStatement.setInt(1, emailKontakt.getId());
+            preparedStatement.setInt(1, id);
 
             //SQl-Abfrage
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+           throw new MailException("Datensatz nicht vorhanden ");
         } finally {
             if (connection != null) {
                 close(connection, preparedStatement);

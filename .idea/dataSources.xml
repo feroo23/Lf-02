@@ -7,5 +7,11 @@
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:C:\Users\ferhat44\IdeaProjects\Lf-02\KaufvertragMitDao\Kaufvertrag.db3</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="Mail" uuid="9a3935fb-13b0-4ee2-a6d2-4644e2dc518e">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\ferhat44\IdeaProjects\Lf-02\Emailverwaltung\Mail.db</jdbc-url>
+    </data-source>
   </component>
 </project>

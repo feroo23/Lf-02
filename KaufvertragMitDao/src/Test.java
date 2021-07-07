@@ -340,8 +340,8 @@ public class Test {
         System.out.println("||[A] Vorname/Nachname           ||");
         System.out.println("||[B] Adresse                    ||");
         System.out.println("||[C] Allllleesss                ||");
-        System.out.println("||[Z] Zurück                     ||");
-        System.out.println("||[X] Benden                     ||");
+        System.out.println("||[Z] Zuück                     ||");
+        System.out.println("||[X] Benrden                     ||");
         System.out.println("-----------------------------------");
         String x = IO.readString();
         switch (x.toLowerCase()) {

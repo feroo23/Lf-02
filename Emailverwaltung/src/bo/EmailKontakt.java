@@ -51,4 +51,13 @@ String emailadresse;
     public void setEmailadresse(String emailadresse) {
         this.emailadresse = emailadresse;
     }
+
+    @Override
+    public String toString() {
+        String text = "\n\tID: " + getId();
+        text += "\n\t\tVorname: " + getVorname();
+        text += "\n\t\tNachname: " + getNachname();
+        text += "\n\tEmailadresse: " + getEmailadresse();
+        return text;
+    }
 }
