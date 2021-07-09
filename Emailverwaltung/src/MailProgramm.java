@@ -33,14 +33,24 @@ public class MailProgramm {
             first();
         }
         else if (x.equalsIgnoreCase("previous")){
-
+            previous();
         }
         else if (x.equalsIgnoreCase("next")){
-
+            next();
         }
         else {
             System.out.println("erneut versuchen");
         }
+    }
+
+    private static void previous() {
+        EmailKontaktDao emailKontaktDao = new EmailKontaktDao();
+        EmailKontakt emailKontakt;
+    }
+
+    private static void next() {
+        EmailKontaktDao emailKontaktDao = new EmailKontaktDao();
+        EmailKontakt emailKontakt;
     }
 
     private static void first() throws MailException {
@@ -105,7 +115,7 @@ public class MailProgramm {
         System.out.println("Was wollen sie ändern ");
         String frag = IO.readString();
 
-        if (frag.equalsIgnoreCase("vorname")){
+        if (frag.equalsIgnoreCase("Vorname")){
             System.out.print("vorname: ");
             String vorname = IO.readString();
             emailKontakt.setVorname(vorname);
