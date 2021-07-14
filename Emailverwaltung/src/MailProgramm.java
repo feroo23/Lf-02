@@ -1,26 +1,18 @@
 import bo.EmailKontakt;
-import dao.DaoException;
 import emailDao.EmailKontaktDao;
 import emailDao.MailException;
 import service.IO;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.SQLOutput;
 
 public class MailProgramm {
 
     public static void main(String[] args) throws IOException, MailException, SQLException {
-
+        abfrage();
     }
 
-    public MailProgramm() throws IOException {
-
-    }
-
-
-
-    private static void main() throws IOException, MailException, SQLException {
+    private static void abfrage() throws IOException, MailException, SQLException {
         System.out.println("Was wollen sie machen?");
         String x = IO.readString();
 
@@ -42,21 +34,25 @@ public class MailProgramm {
         else if (x.equalsIgnoreCase("first")){
             first();
         }
+        else if (x.equalsIgnoreCase("benden")){
+
+        }
         else {
             System.out.println("erneut versuchen");
-            main();
+            abfrage();
         }
-
     }
 
     private static void previous(EmailKontakt emailKontakt) throws MailException {
         EmailKontaktDao emailKontaktDao = new EmailKontaktDao();
-        emailKontaktDao.previous(emailKontakt);
+        emailKontakt = emailKontaktDao.previous(emailKontakt);
+        System.out.println(emailKontakt);
     }
 
     private static void next(EmailKontakt emailKontakt) throws MailException {
         EmailKontaktDao emailKontaktDao = new EmailKontaktDao();
-        emailKontaktDao.next(emailKontakt);
+        emailKontakt = emailKontaktDao.next(emailKontakt);
+        System.out.println(emailKontakt);
     }
 
     private static void first() throws MailException {
@@ -93,7 +89,7 @@ public class MailProgramm {
         emailKontakt = emailKontaktDao.last();
 
         System.out.println(emailKontakt);
-        main();
+        abfrage();
     }
 
     private static void delete() throws SQLException, IOException, MailException {
@@ -106,7 +102,7 @@ public class MailProgramm {
         }catch (MailException e){
             e.getMessage();
         }
-        main();
+        abfrage();
     }
 
     private static void update() throws IOException {
@@ -165,18 +161,22 @@ public class MailProgramm {
         if (emailKontakt != null) {
             System.out.println(emailKontakt);
         }
-        System.out.println("[+] für next [-] für previous");
-        String y = IO.readString();
+        boolean booo = true;
+        while (booo){
+            System.out.println("\n[+] für next [-] für previous");
+            String y = IO.readString();
 
-        if (y.equalsIgnoreCase("+")){
-            next(emailKontakt);
-        }
-        else if (y.equalsIgnoreCase("-")){
-            previous(emailKontakt);
-        }
-        else {
-            System.out.println("Erneut versuchen");
-
+            if (y.equalsIgnoreCase("+")){
+                next(emailKontakt);
+                booo = false;
+            }
+            else if (y.equalsIgnoreCase("-")){
+                previous(emailKontakt);
+                booo = false;
+            }
+            else {
+                System.out.println("Erneut versuchen");
+            }
         }
     }
 }

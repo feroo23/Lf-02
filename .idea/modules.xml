@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Arbeit/Arbeit.iml" filepath="$PROJECT_DIR$/Arbeit/Arbeit.iml" />
       <module fileurl="file://$PROJECT_DIR$/Emailverwaltung/Emailverwaltung.iml" filepath="$PROJECT_DIR$/Emailverwaltung/Emailverwaltung.iml" />
+      <module fileurl="file://$PROJECT_DIR$/KaudverftragMitPersistierung/KaudverftragMitPersistierung.iml" filepath="$PROJECT_DIR$/KaudverftragMitPersistierung/KaudverftragMitPersistierung.iml" />
       <module fileurl="file://$PROJECT_DIR$/Kaufvertrag/Kaufvertrag.iml" filepath="$PROJECT_DIR$/Kaufvertrag/Kaufvertrag.iml" />
       <module fileurl="file://$PROJECT_DIR$/KaufvertragMitDao/KaufvertragMitDao.iml" filepath="$PROJECT_DIR$/KaufvertragMitDao/KaufvertragMitDao.iml" />
       <module fileurl="file://$PROJECT_DIR$/KaufvertragMitDau/KaufvertragMitDau.iml" filepath="$PROJECT_DIR$/KaufvertragMitDau/KaufvertragMitDau.iml" />

@@ -57,7 +57,7 @@ public class EmailKontaktDao {
         try {
             connection = DriverManager.getConnection(CONNECTINGSTRING);
 
-            String sql = "SELECT * FROM Email WHERE ID = < ? GROUP BY ID DESC LIMIT 1";
+            String sql = "SELECT * FROM Email WHERE ID =(SELECT MAX(ID) FROM Email WHERE ID < ?)";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, emailKontakt.getId());
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -79,13 +79,13 @@ public class EmailKontaktDao {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
+
             connection = DriverManager.getConnection(CONNECTINGSTRING);
 
-            String sql = "SELECT * FROM Email WHERE ID = >? GROUP BY ID LIMIT 1";
+            String sql = "SELECT * FROM Email WHERE ID > ? ORDER by ID limit 1";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, emailKontakt.getId());
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
 
             emailKontakt = creatObject(resultSet);
         } catch (SQLException e) {
@@ -98,6 +98,7 @@ public class EmailKontaktDao {
         }
         return emailKontakt;
     }
+
 
     public EmailKontakt first() throws MailException {
         Connection connection = null;
